@@ -4,7 +4,6 @@ import com.github.miunaoshino.untitledveganplugin.UntitledVeganPlugin;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import javafx.util.Pair;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;

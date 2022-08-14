@@ -1,56 +1,83 @@
 package com.github.miunaoshino.untitledveganplugin.Core;
 
+import com.github.miunaoshino.untitledveganplugin.Fishing.FishingHandler;
+import com.github.miunaoshino.untitledveganplugin.Fishing.Punisher;
 import com.github.miunaoshino.untitledveganplugin.UntitledVeganPlugin;
 import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.world.LootGenerateEvent;
 import org.bukkit.event.world.WorldSaveEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.loot.LootTable;
+import org.bukkit.loot.LootTables;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.awt.event.ItemEvent;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class EventListener implements Listener
 {
-  public class MurderPunishment implements Runnable
+
+  @EventHandler
+  public void onLootGenerate(LootGenerateEvent e)
   {
-    private final LivingEntity entity;
+    /*
+          LootTable table = UntitledVeganPlugin.getInstance().getServer().getLootTable(UntitledVeganPlugin.feedingRodTable.get());
+          LinkedList<ItemStack> drops = new LinkedList<>();
 
-    public MurderPunishment(LivingEntity _entity)
+          LootContext context = new LootContext.Builder(player.getLocation())
+                  .killer(player).build();
+          table.populateLoot(new Random(), )
+          e.setExpToDrop((int)Math.floor(e.getExpToDrop() * 1.5));
+          ItemStack newDrop = new ItemStack(Material.SAND, 1);
+          ((Item)e.getCaught()).setItemStack(newDrop);*/
+
+    UntitledVeganPlugin.getInstance().getLogger().info("Loot table is " + e.getLootTable().getKey().toString());
+    if (!e.getLootTable().equals(LootTables.FISHING))
+      return;
+    Entity entity = e.getEntity();
+    UntitledVeganPlugin.getInstance().getLogger().info(entity.getName());
+    if (!FishingHandler.isPlayerHoldingFeedingRod((Player)entity))
+      return;
+    if (e.isPlugin())
+      return;
+    UntitledVeganPlugin.getInstance().getLogger().info("it is fEEDING");
+  }
+
+  @EventHandler
+  public void onPlayerInteract(PlayerInteractEvent e)
+  {
+    if (e.getItem() == null)
     {
-      entity = _entity;
+      UntitledVeganPlugin.getInstance().getLogger().info("Giving");
+      ItemStack stack = new ItemStack(Material.FISHING_ROD, 1);
+      ItemMeta meta = stack.getItemMeta().clone();
+      meta.getPersistentDataContainer().set(UntitledVeganPlugin.fishingRodType.get(), PersistentDataType.STRING, "feeding_rod");
+      meta.setDisplayName("Feeding rod");
+      meta.addEnchant(Enchantment.LUCK, 3, true);
+      stack.setItemMeta(meta);
+      e.getPlayer().getInventory().addItem(stack);
     }
+  }
 
-    @Override
-    public void run()
-    {
-      World worldIn = this.entity.getWorld();
-      Location killerLocation = this.entity.getLocation();
-
-      UntitledVeganPlugin.getInstance().getLogger().info("We are punishing " + this.entity.getName());
-      if (worldIn.getHighestBlockAt(killerLocation).getLocation().getBlockY() <=
-          killerLocation.getY()) // We are under the sky
-      {
-        UntitledVeganPlugin.getInstance().getLogger().info("Outside");
-        this.entity.getWorld().strikeLightning(killerLocation);
-        this.entity.damage(3.0);
-        if (this.entity.isInWater())
-          this.entity.damage(5.0);
-        else
-          this.entity.setFireTicks(100);
-      }
-      else // We are in a cave
-      {
-        worldIn.createExplosion(this.entity.getLocation(), 0, false, false);
-        this.entity.damage(5.0 + 3.0);
-        if (this.entity.isInWater())
-          this.entity.damage(5.0);
-        else
-          this.entity.setFireTicks(100);
-        UntitledVeganPlugin.getInstance().getLogger().info("In cave");
-      }
-    }
+  @EventHandler
+  public void onPlayerFish(PlayerFishEvent e)
+  {
+    FishingHandler.onPlayerFish(e);
   }
 
   @EventHandler
@@ -88,10 +115,7 @@ public class EventListener implements Listener
                            .registerFriendKill(entity, (Player) killer);
       }
       UntitledVeganPlugin.getInstance().getLogger().info(killer.getName() + " killed " + entity.getName() + ", a friend");
-      Random rand = new Random();
-      Bukkit.getScheduler().runTaskLater(UntitledVeganPlugin.getInstance(),
-                                         new MurderPunishment(killer),
-                                         rand.nextInt(110) + 10);
+      Punisher.punishForMurder(killer);
     }
   }
 }

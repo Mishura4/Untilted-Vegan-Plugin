@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,12 +20,24 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class UntitledVeganPlugin extends JavaPlugin
 {
   private static final int CONFIG_VERSION = 2;
   private static UntitledVeganPlugin INSTANCE;
+
+  private static NamespacedKey fishingRodTypeKey;
+  private static NamespacedKey fishingRodDataKey;
+  private static NamespacedKey feedingRodTableKey;
+
+  public static final Supplier<NamespacedKey> fishingRodType =
+          () -> (fishingRodTypeKey == null ? fishingRodTypeKey = new NamespacedKey(INSTANCE, "fishing_rod_type") : fishingRodTypeKey);
+  public static final Supplier<NamespacedKey> fishingRodData =
+          () -> (fishingRodDataKey == null ? fishingRodDataKey = new NamespacedKey(INSTANCE, "fishing_rod_data") : fishingRodDataKey);
+  public static final Supplier<NamespacedKey> feedingRodTable =
+          () -> (feedingRodTableKey == null ? feedingRodTableKey = new NamespacedKey(INSTANCE, "gameplay/feeding") : feedingRodTableKey);
 
   private EventListener eventListener;
   private UVPData data;

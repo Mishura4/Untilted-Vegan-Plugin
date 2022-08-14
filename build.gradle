@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+}
+
+group 'com.github.MiunaOshino'
+version '1.0-SNAPSHOT'
+
+setArchivesBaseName("UntitledVeganPlugin")
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+        // As of Gradle 5.1, you can limit this to only those
+        // dependencies you expect from it
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+    /*
+     As Spigot-API depends on the BungeeCord ChatComponent-API,
+    we need to add the Sonatype OSS repository, as Gradle,
+    in comparison to maven, doesn't want to understand the ~/.m2
+    directory unless added using mavenLocal(). Maven usually just gets
+    it from there, as most people have run the BuildTools at least once.
+    This is therefore not needed if you're using the full Spigot/CraftBukkit,
+    or if you're using the Bukkit API.
+    */
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+    // mavenLocal() // This is needed for CraftBukkit and Spigot.
+
+    maven { url 'https://jitpack.io' } // DecentHolograms
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.19.1-R0.1-SNAPSHOT' // The Spigot API with no shadowing. Requires the OSS repo.
+   // compileOnly 'org.spigotmc:spigot:1.19-R0.1-SNAPSHOT' // The full Spigot server with no shadowing. Requires mavenLocal.
+
+    compileOnly 'com.github.decentsoftware-eu:decentholograms:2.5.2'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}

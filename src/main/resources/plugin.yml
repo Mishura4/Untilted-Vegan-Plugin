@@ -1,0 +1,16 @@
+name: UntitledVeganPlugin
+version: 1.0-SNAPSHOT
+main: com.github.miunaoshino.untitledveganplugin.UntitledVeganPlugin
+api-version: 1.19
+depend:
+commands:
+  uvp:
+    description: The main command for Untitled Vegan Plugin.
+    usage: /<command> [uuid]
+    permission: untitledveganplugin.uvp_command
+    permission-message: Permission denied.
+permissions:
+  untitledveganplugin.all:
+    children:
+      untitledveganplugin.uvp_command:
+        default: true

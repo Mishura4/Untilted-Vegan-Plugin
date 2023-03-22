@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "BMM",
+    "   "
+  ],
+  "key": {
+		"#": {
+      "item": "minecraft:wheat"
+    },
+		"B": {
+				"item": "minecraft:beetroot"
+    },
+			"M": {
+					"tag": "untitledveganplugin:mushroom"
+			}
+  },
+  "result": {
+			"item": "minecraft:beef",
+    "count": 1
+  }
+}

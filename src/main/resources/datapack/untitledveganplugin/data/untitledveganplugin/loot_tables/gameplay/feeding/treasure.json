@@ -6,6 +6,61 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_potion",
+              "id": "minecraft:water_breathing"
+            }
+          ],
+          "name": "minecraft:potion",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_potion",
+              "id": "minecraft:leaping"
+            }
+          ],
+          "name": "minecraft:potion",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_potion",
+              "id": "minecraft:strong_leaping"
+            }
+          ],
+          "name": "minecraft:potion",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_leaping"
+            }
+          ],
+          "name": "minecraft:potion",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_potion",
+              "id": "minecraft:long_water_breathing"
+            }
+          ],
+          "name": "minecraft:potion",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
           "name": "minecraft:name_tag"
         },
         {
@@ -26,7 +81,8 @@
               "treasure": true
             }
           ],
-          "name": "minecraft:bow"
+          "name": "minecraft:bow",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
@@ -50,7 +106,8 @@
               "tag": "{PublicBukkitValues:{\"untitledveganplugin:fishing_rod_type\":\"feeding_rod\"}}"
             }
           ],
-          "name": "minecraft:fishing_rod"
+          "name": "minecraft:fishing_rod",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
@@ -61,11 +118,13 @@
               "treasure": true
             }
           ],
-          "name": "minecraft:book"
+          "name": "minecraft:book",
+          "weight": 5
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:nautilus_shell"
+          "name": "minecraft:nautilus_shell",
+          "weight": 7
         }
       ],
       "rolls": 1.0

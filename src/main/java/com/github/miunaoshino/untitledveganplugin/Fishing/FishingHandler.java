@@ -71,7 +71,6 @@ public class FishingHandler
     Player player = e.getPlayer();
     Entity entity = e.getCaught(); // Entity caught by the player, Entity if fishing, and null if bobber has gotten stuck in the ground or nothing has been caught
 
-
     if (player == null)
     {
       UntitledVeganPlugin.getInstance().getLogger().warning("Player is null during fish event");
@@ -91,7 +90,6 @@ public class FishingHandler
       pdh = e.getHook();
 
     FishingRodType type = getFishingRodType(pdh);
-    UntitledVeganPlugin.getInstance().getLogger().info("Type is " + type.value);
 
     switch (e.getState())
     {
@@ -100,11 +98,9 @@ public class FishingHandler
         {
           ItemMeta rodMeta = (ItemMeta)pdh;
 
-          UntitledVeganPlugin.getInstance().getLogger().info("Rod luck " + rodMeta.getEnchantLevel(Enchantment.LUCK));
-
           PersistentDataContainer pdc = e.getHook().getPersistentDataContainer();
           pdc.set(UntitledVeganPlugin.fishingRodType.get(), PersistentDataType.STRING, type.value);
-          pdc.set(UntitledVeganPlugin.fishingRodData.get(), PersistentDataType.INTEGER, rodMeta.getEnchantLevel(Enchantment.LUCK));
+          pdc.set(UntitledVeganPlugin.fishingRodData.get(), PersistentDataType.INTEGER, rodMeta.getEnchantLevel(Enchantment.LUCK) + (int)e.getPlayer().getAttribute(Attribute.GENERIC_LUCK).getValue());
         }
       }
 
@@ -119,24 +115,17 @@ public class FishingHandler
           LootTable table = UntitledVeganPlugin.getInstance().getServer().getLootTable(UntitledVeganPlugin.feedingRodTable.get());
 
           if (table == null)
-          {
-            UntitledVeganPlugin.getInstance().getLogger().severe("no table at " + UntitledVeganPlugin.feedingRodTable.get().toString());
             return;
-          }
 
           int luck = pdh.getPersistentDataContainer().get(UntitledVeganPlugin.fishingRodData.get(), PersistentDataType.INTEGER);
 
-          UntitledVeganPlugin.getInstance().getLogger().info("Luck is " + luck);
-
-          LootContext context = new LootContext.Builder(player.getLocation()).lootedEntity(player).killer(player).luck(luck).build();
+          LootContext context = new LootContext.Builder(player.getLocation()).lootedEntity(e.getHook()).killer(player).luck(luck).build();
 
           Collection<ItemStack> newLoots = table.populateLoot(new Random(), context);
           ((Item)e.getCaught()).setItemStack(newLoots.stream().findFirst().get());
-          UntitledVeganPlugin.getInstance().getLogger().info("Loots were changed to " + newLoots.toString());
+          UntitledVeganPlugin.getInstance().getLogger().info("Fishing with luck " + luck + ": loots were changed to " + newLoots.toString());
         }
       }
     }
-
-    UntitledVeganPlugin.getInstance().getLogger().info(e.getState().name());
   }
 }

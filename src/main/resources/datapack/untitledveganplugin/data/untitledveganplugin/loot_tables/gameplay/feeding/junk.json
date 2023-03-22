@@ -72,23 +72,12 @@
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": 10.0,
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "minecraft:ink_sac"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:tripwire_hook",
+          "name": "minecraft:black_dye",
           "weight": 10
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:rotten_flesh",
+          "name": "minecraft:tripwire_hook",
           "weight": 10
         },
         {

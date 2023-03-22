@@ -3,9 +3,11 @@ plugins {
 }
 
 group 'com.github.MiunaOshino'
-version '1.0-SNAPSHOT'
+version '1.1-SNAPSHOT'
 
 setArchivesBaseName("UntitledVeganPlugin")
+
+sourceCompatibility = 1.17
 
 repositories {
     mavenCentral()
@@ -37,11 +39,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.19.1-R0.1-SNAPSHOT' // The Spigot API with no shadowing. Requires the OSS repo.
+    compileOnly 'org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT' // The Spigot API with no shadowing. Requires the OSS repo.
    // compileOnly 'org.spigotmc:spigot:1.19-R0.1-SNAPSHOT' // The full Spigot server with no shadowing. Requires mavenLocal.
 
-    compileOnly 'com.github.decentsoftware-eu:decentholograms:2.5.2'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    //compileOnly 'com.github.decentsoftware-eu:decentholograms:2.5.2'
+    //implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

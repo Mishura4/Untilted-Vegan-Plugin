@@ -10,14 +10,14 @@
       "item": "minecraft:wheat"
     },
 		"B": {
-				"item": "minecraft:beetroot"
+		    "tag": "untitledveganplugin:mushroom"
     },
 			"M": {
-					"tag": "untitledveganplugin:mushroom"
+					"item": "minecraft:carrot"
 			}
   },
   "result": {
-			"item": "minecraft:beef",
+			"item": "minecraft:porkchop",
     "count": 1
   }
 }
